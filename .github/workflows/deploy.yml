@@ -14,5 +14,5 @@ jobs:
       -name: Verification GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{secrets.GITHUB_TOKEN}}
+        github_token: ${{secrets.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}}
         publish_dir: .
