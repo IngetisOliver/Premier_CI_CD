@@ -1,12 +1,203 @@
-<!DOCTYPE html>
-  <head>
-      <title>Mon Premier CI/CD</title>
-  </head>
-  <body style="background-image: url('bg.png');
-             background-size: cover;
-             background-repeat: no-repeat;
-             background-position: center;">
-      <h1>Bonjour GIT + CI/CD</h1>
-      <p>Le pipeline fonctionne!</p>
-  </body>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Guide Git — Usage global</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#6ee7b7; --muted:#94a3b8; --glass: rgba(255,255,255,0.03);
+      --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef8;background:linear-gradient(180deg,#071025 0%, #0b1220 60%);}
+    .container{max-width:1100px;margin:48px auto;padding:24px}
+    header{display:flex;align-items:center;gap:18px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;color:#042; font-weight:700; font-size:20px}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:6px 0 20px;color:var(--muted)}
+
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .card h2{margin:0 0 8px;font-size:18px}
+    .muted{color:var(--muted);font-size:14px}
+
+    pre.terminal{background:linear-gradient(180deg,#071228,#051025);padding:12px;border-radius:8px;color:#dbeafe;overflow:auto;font-family:var(--mono);font-size:13px;margin:12px 0}
+    .cmd{display:flex;gap:8px;align-items:center}
+    .btn-copy{margin-left:auto;background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 8px;border-radius:8px;color:var(--muted);cursor:pointer}
+
+    .full{grid-column:1 / -1}
+    .kbd{background:rgba(255,255,255,0.03);padding:2px 8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);font-family:var(--mono)}
+
+    footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">GIT</div>
+      <div>
+        <h1>Guide rapide — utilisation de Git</h1>
+        <p class="lead">Les concepts et commandes essentiels pour utiliser Git en local et collaborer via un dépôt distant (GitHub, GitLab, etc.).</p>
+      </div>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Qu'est-ce que Git ?</h2>
+        <p class="muted">Git est un système de contrôle de version distribué qui enregistre les changements dans les fichiers et permet de collaborer efficacement.</p>
+        <ul class="muted">
+          <li>Historique local (snapshots)</li>
+          <li>Branches légères pour expérimenter</li>
+          <li>Fusion et résolution de conflits</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Installation</h2>
+        <p class="muted">Installer Git sur Linux / macOS / Windows :</p>
+        <pre class="terminal"># macOS (Homebrew)
+brew install git
+
+# Debian / Ubuntu
+sudo apt update && sudo apt install git
+
+# Windows: installer depuis https://git-scm.com</pre>
+      </article>
+
+      <article class="card">
+        <h2>Configuration initiale</h2>
+        <pre class="terminal">git config --global user.name "Ton Nom"
+git config --global user.email "email@exemple.com"
+# Vérifier
+git config --list</pre>
+      </article>
+
+      <article class="card">
+        <h2>Créer / cloner un dépôt</h2>
+        <pre class="terminal"># Créer un dépôt local
+mkdir mon-projet && cd mon-projet
+git init
+
+# Cloner un dépôt distant
+git clone https://github.com/utilisateur/projet.git</pre>
+      </article>
+
+      <article class="card full">
+        <h2>Cycle de travail courant (Workflow)</h2>
+        <p class="muted">Exemple simple : modifier, ajouter, valider, pousser.</p>
+        <pre class="terminal"># Voir l'état
+git status
+
+# Ajouter des fichiers à l'index (staging)
+git add fichier.txt
+# ou tout
+git add .
+
+# Enregistrer un commit
+git commit -m "Message clair expliquant le changement"
+
+# Récupérer les derniers changements du distant et fusionner
+git pull --rebase origin main
+
+# Envoyer vos commits
+git push origin main</pre>
+      </article>
+
+      <article class="card">
+        <h2>Branches</h2>
+        <p class="muted">Les branches permettent de travailler sur des fonctionnalités sans toucher à la branche principale.</p>
+        <pre class="terminal"># Créer et basculer sur une branche
+git checkout -b feature/ma-fonction
+
+# Lister les branches
+git branch
+
+# Fusionner la branche dans main (depuis main)
+git checkout main
+git merge feature/ma-fonction
+
+# Supprimer la branche locale
+git branch -d feature/ma-fonction</pre>
+      </article>
+
+      <article class="card">
+        <h2>Résolution de conflits</h2>
+        <p class="muted">Lorsqu'il y a des conflits après un merge ou pull, Git marque les fichiers concernés. Il faut les éditer, résoudre, puis :</p>
+        <pre class="terminal">git add fichier-resolu.txt
+git commit -m "Résolution de conflit: fichier-resolu"</pre>
+      </article>
+
+      <article class="card">
+        <h2>Trucs & bonnes pratiques</h2>
+        <ul class="muted">
+          <li>Faire des commits atomiques et des messages clairs.</li>
+          <li>Pull avant de commencer à travailler pour éviter les conflits.</li>
+          <li>Utiliser des branches pour chaque fonctionnalité / ticket.</li>
+          <li>Relire les changements avec <span class="kbd">git diff</span> avant commit.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Cheat-sheet (commandes fréquentes)</h2>
+        <pre class="terminal" id="cheatsheet">git status
+git add .
+git commit -m "msg"
+git push
+
+# Branches
+git checkout -b nom-branche
+git checkout main
+git merge nom-branche
+
+git pull --rebase</pre>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn-copy" data-target="#cheatsheet">Copier la cheat-sheet</button>
+        </div>
+      </article>
+
+      <article class="card full">
+        <h2>Exemple visuel du flux collaboratif</h2>
+        <p class="muted">Typiquement : fork/clone → créer une branche → PR/MR → revue → merge → déployer</p>
+        <pre class="terminal"># Exemple résumé
+# 1. mettre à jour main
+git checkout main
+git pull origin main
+
+# 2. créer une branche et y travailler
+git checkout -b feat/login
+# ... coder
+git add .
+git commit -m "feat: ajouter écran de connexion"
+
+# 3. pousser la branche
+git push -u origin feat/login
+
+# 4. ouvrir une Pull Request sur la plateforme distante (GitHub/GitLab)
+</pre>
+      </article>
+
+    </section>
+
+    <footer>
+      Besoin d'exemples plus avancés (rebase interactif, hooks, submodules) ? Dis-moi ce que tu veux approfondir.
+    </footer>
+  </div>
+
+  <script>
+    // simple copie
+    document.querySelectorAll('.btn-copy').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const sel = document.querySelector(btn.dataset.target);
+        if(!sel) return;
+        navigator.clipboard.writeText(sel.innerText).then(()=>{
+          btn.innerText = 'Copié ✓';
+          setTimeout(()=>btn.innerText = 'Copier la cheat-sheet',1500);
+        });
+      });
+    });
+  </script>
+</body>
 </html>
