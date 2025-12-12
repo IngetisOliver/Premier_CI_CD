@@ -1,1 +1,1 @@
-Un petit projet sur le git workflows CI/CD d'un déploiement d'un site html automatiquement.
+Un petit projet sur le git workflows CI/CD d'un déploiement automatiquement d'un site html.
